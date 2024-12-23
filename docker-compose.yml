@@ -1,0 +1,27 @@
+version: '3'
+
+networks:
+  tg-network:
+    driver: bridge
+
+services:
+  bot:
+    build: ./bot
+    environment:
+      - TG_KEY=
+    restart: always
+    networks:
+      - tg-network
+  
+  api:
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+    networks:
+      - tg-network
+    environment:
+      - API_KEY=
+    restart: always
+    stop_signal: SIGINT
+    expose:
+      - "5000"
